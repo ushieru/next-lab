@@ -7,14 +7,20 @@ export default function handler(req, res) {
       return getDatabase('user')
         .select('*')
         .then(users => res.json(users))
-        .catch(err => res.status(400).json({}))
+        .catch(err => {
+          console.log(err)
+          res.status(400).json({})
+        })
     case 'POST':
       const { name, lastname } = req.body;
       return getDatabase('user')
         .insert({ name, lastname })
         .returning('*')
         .then(user => res.json(user))
-        .catch(_ => res.status(400).json({}));
+        .catch(err => {
+          console.log(err)
+          res.status(400).json({})
+        });
     default: return res.status(204).json({})
   }
 }
